@@ -77,7 +77,7 @@ def clip(col,aoi):
         col_list.append(image.clip(aoi))
     return ee.ImageCollection.fromImages(col_list)
 
-
+def getImg(col,index):return ee.Image(col.toList(100000).get(index))
 def get_proj_trans(img):
     # pretty code
     bandList = ee.List(ee.Dictionary(ee.Algorithms.Describe(img)).get('bands'))
@@ -1217,7 +1217,7 @@ def dn_col(collection, aoi_pnts, mdir, bands, overwrite=False, fps=2):
         for aoi_id, sub_aoi in enumerate(sub_aois_WGS):
             time.sleep(1)
             sub_aoi = ee.Geometry.Polygon(sub_aoi)
-            np_img = geemap.ee_to_numpy(img, bands=bands, region=sub_aoi, default_value=0)
+            np_img = geemap.ee_to_numpy(img, bands=bands, region=sub_aoi)# , default_value=0
             # show_npy( np_img )
             try:
                 np_img = np_img.astype(dtype)
